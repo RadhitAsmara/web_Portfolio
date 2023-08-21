@@ -1,0 +1,24 @@
+version: "3"
+services:
+  php:
+    build: .
+    ports:
+      - "5003:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mysql
+    restart: always
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: stembactf
+      MYSQL_DATABASE: blind_sqli
+      MYSQL_USER: stembactf
+      MYSQL_PASSWORD: stembactf
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+volumes:
+  mysql_data:
